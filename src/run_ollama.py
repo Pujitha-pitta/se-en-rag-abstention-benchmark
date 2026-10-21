@@ -40,35 +40,43 @@ def load_cases(path: Path) -> list[dict]:
 def make_prompt(case: dict, strategy: str) -> tuple[str, str]:
     if case["language"] == "sv":
         system = (
-            "Svara på svenska. Använd bara frågan och de angivna dokumenten. "
-            "Hitta inte på fakta. Returnera endast ett JSON-objekt med fälten decision, answer, "
-            "evidence_ids och reason. decision måste vara answer, partial eller abstain. "
-            "Välj answer om aktuella dokument tydligt stöder svaret. Välj partial om dokumenten "
-            "bara stöder en del av svaret. Välj abstain om dokumenten saknas eller inte stöder svaret."
+            "Svara på svenska och använd bara frågan och dokumenten. Hitta inte på fakta. "
+            "Returnera endast ett JSON-objekt med fälten decision, answer, evidence_ids och reason. "
+            "decision måste vara answer, partial eller abstain; answer och reason måste vara text; "
+            "evidence_ids måste vara en lista. answer innehåller bara svaret, aldrig en förklaring. "
+            "Välj answer när dokument tydligt stöder hela svaret. Välj partial när relevanta dokument "
+            "stöder en del men den efterfrågade detaljen saknas; skriv den kända delen i answer. "
+            "Välj abstain när inget relevant dokument stöder svaret; answer måste då vara en tom sträng. "
+            "Lägg förklaringen i reason."
         )
         question_label, docs_label, empty_context = "Fråga", "Dokument", "Inga dokument har hämtats."
     else:
         system = (
-            "Use only the question and the supplied documents. Do not invent facts. "
+            "Answer in English using only the question and supplied documents. Do not invent facts. "
             "Return only one JSON object with fields decision, answer, evidence_ids, and reason. "
-            "decision must be answer, partial, or abstain. Choose answer when current documents "
-            "clearly support the answer, partial when they support only part of it, and abstain "
-            "when documents are absent or do not support the answer."
+            "decision must be answer, partial, or abstain; answer and reason must be strings; "
+            "evidence_ids must be a list. The answer field contains only the answer, never an explanation. "
+            "Choose answer when the documents clearly support the full answer. Choose partial when "
+            "relevant documents support some information but the requested detail is missing; put the "
+            "known part in answer. Choose abstain when no relevant document supports an answer; answer "
+            "must then be an empty string. Put explanations in reason."
         )
         question_label, docs_label, empty_context = "Question", "Documents", "No documents were retrieved."
 
     if strategy == "evidence_check":
         if case["language"] == "sv":
             system += (
-                " Kontrollera före svaret om dokumenten motsäger varandra. Jämför källornas "
-                "angivna auktoritet, datum och om en källa är ersatt. Om konflikten inte kan "
-                "lösas med dessa uppgifter, välj abstain och förklara konflikten."
+                " Kontrollera även motstridiga dokument. superseded=true betyder att källan är ersatt "
+                "och ska inte användas när en aktuell källa finns. Om en aktuell, ej ersatt källa tydligt "
+                "stöder svaret, välj answer även om en ersatt källa säger något annat. Välj abstain endast "
+                "om två eller fler ej ersatta källor fortfarande motsäger varandra."
             )
         else:
             system += (
-                " Before answering, check whether documents conflict. Compare their stated "
-                "authority, dates, and whether a source is superseded. If the supplied metadata "
-                "does not resolve the conflict, choose abstain and explain it."
+                " Also check conflicting documents. superseded=true means that source is outdated and "
+                "must not be used when a current source is available. If a current, non-superseded source "
+                "clearly supports the answer, choose answer even when a superseded source says something "
+                "different. Choose abstain only when two or more non-superseded sources still conflict."
             )
 
     rendered_passages = []
