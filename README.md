@@ -25,7 +25,7 @@ A model cannot infer that a lone, plausible statement is false from that stateme
 - `data/schema.json` — required fields for each benchmark case.
 - `data/pilot.jsonl` — 20 draft cases: two scenarios × two languages × five evidence conditions.
 - `src/run_ollama.py` — runs the pilot using a local Ollama model.
-- `src/score.py` — summarizes saved runs as CSV.
+- `src/score.py` — summarizes saved runs as CSV, including a heuristic answer/decision conflict rate. Review flagged outputs manually; the phrase checks are not a substitute for human evaluation.
 - `results/` — generated results; do not commit private user data or model files.
 
 ## Run the pilot on Windows
