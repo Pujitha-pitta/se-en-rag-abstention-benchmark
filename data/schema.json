@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/rag-abstention-sv-en/case.schema.json",
+  "title": "Evidence-aware RAG benchmark case",
+  "type": "object",
+  "required": [
+    "scenario_id",
+    "language",
+    "condition",
+    "question",
+    "passages",
+    "expected_decision",
+    "answer_key",
+    "acceptable_answers"
+  ],
+  "properties": {
+    "scenario_id": {
+      "type": "string",
+      "description": "Shared ID for the matched Swedish and English scenario."
+    },
+    "language": {
+      "enum": ["sv", "en"]
+    },
+    "condition": {
+      "enum": ["supported", "partial", "irrelevant", "no_context", "misleading_conflict"]
+    },
+    "question": {
+      "type": "string",
+      "minLength": 1
+    },
+    "passages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["passage_id", "text", "source_label", "version_date"],
+        "properties": {
+          "passage_id": {"type": "string"},
+          "text": {"type": "string", "minLength": 1},
+          "source_label": {"type": "string"},
+          "version_date": {"type": ["string", "null"]},
+          "superseded": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "expected_decision": {
+      "enum": ["answer", "partial", "abstain"]
+    },
+    "answer_key": {
+      "type": ["string", "null"]
+    },
+    "acceptable_answers": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "misleading_claim": {
+      "type": ["string", "null"],
+      "description": "The claim that should not be adopted when a visible conflict/supersession cue is present."
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "translation_review": {
+      "type": "object",
+      "properties": {
+        "reviewed": {"type": "boolean"},
+        "reviewer_note": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+
