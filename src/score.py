@@ -11,6 +11,34 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+REFUSAL_PATTERNS = {
+    "en": re.compile(
+        r"not listed|not provided|not stated|does not (?:provide|mention|state)|"
+        r"do not provide|cannot answer|can't answer|no clear answer|insufficient evidence",
+        re.IGNORECASE,
+    ),
+    "sv": re.compile(
+        r"anges inte|står inte|framgår inte|omnämns inte|saknas|kan inte besvara|"
+        r"inget tydligt svar|otillräcklig information",
+        re.IGNORECASE,
+    ),
+}
+
+
+def answer_decision_conflict(parsed: dict | None, language: str) -> bool:
+    """Flag answer/decision combinations that violate the output contract."""
+    if not parsed:
+        return True
+    decision = parsed.get("decision")
+    answer = str(parsed.get("answer", "")).strip()
+    if decision == "abstain":
+        return bool(answer)
+    if decision == "partial":
+        return not answer
+    if decision == "answer":
+        pattern = REFUSAL_PATTERNS.get(language, REFUSAL_PATTERNS["en"])
+        return not answer or pattern.search(answer) is not None
+    return True
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -71,13 +99,15 @@ def main() -> None:
                 "claim_adopted": claim_adopted,
                 "elapsed_seconds": record.get("elapsed_seconds"),
                 "parse_failure": parsed is None or not isinstance(parsed.get("decision"), str),
+                "answer_decision_conflict": answer_decision_conflict(parsed, record.get("language", "en")),
             }
         )
 
     columns = [
         "model", "strategy", "language", "condition", "n",
         "decision_match_rate", "correct_answer_rate", "abstain_rate", "parse_failure_rate",
-        "unsupported_answer_rate", "misleading_claim_adoption_rate", "mean_seconds",
+        "answer_decision_conflict_rate", "unsupported_answer_rate",
+        "misleading_claim_adoption_rate", "mean_seconds",
     ]
     rows = []
     for (model, strategy, language, condition), items in sorted(groups.items()):
@@ -93,6 +123,9 @@ def main() -> None:
             "correct_answer_rate": round(sum(item["answer_correct"] for item in items) / n, 4),
             "abstain_rate": round(sum(item["decision"] == "abstain" for item in items) / n, 4),
             "parse_failure_rate": round(sum(item["parse_failure"] for item in items) / n, 4),
+            "answer_decision_conflict_rate": round(
+                sum(item["answer_decision_conflict"] for item in items) / n, 4
+            ),
             "unsupported_answer_rate": round(sum(item["decision"] == "answer" for item in items) / n, 4) if unsupported else "",
             "misleading_claim_adoption_rate": round(sum(item["claim_adopted"] for item in items) / n, 4) if condition == "misleading_conflict" else "",
             "mean_seconds": round(sum(float(item["elapsed_seconds"] or 0) for item in items) / n, 3),
@@ -105,6 +138,7 @@ def main() -> None:
         writer.writeheader()
         writer.writerows(rows)
     print(f"Scored {sum(len(items) for items in groups.values())} run records into {output_path}")
+    print("Answer/decision conflict flags use simple English/Swedish refusal-phrase checks; review flagged examples manually.")
     print("Pilot metrics are descriptive only; 2 scenarios are far too few for research conclusions.")
 
 
