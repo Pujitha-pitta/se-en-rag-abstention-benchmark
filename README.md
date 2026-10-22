@@ -23,7 +23,8 @@ A model cannot infer that a lone, plausible statement is false from that stateme
 
 - `docs/research_protocol.md` — research question, benchmark design, scoring, and milestones.
 - `data/schema.json` — required fields for each benchmark case.
-- `data/pilot.jsonl` — 20 draft cases: two scenarios × two languages × five evidence conditions.
+- `data/pilot.jsonl` — 20 pilot cases: two scenarios × two languages × five evidence conditions.
+- `data/expanded_draft.jsonl` — 30 additional draft cases: three new scenarios × two languages × five evidence conditions. These are not reviewed or research-ready; review the Swedish and the answer labels before running them.
 - `src/run_ollama.py` — runs the pilot using a local Ollama model.
 - `src/score.py` — summarizes saved runs as CSV. It reports unsupported answers for irrelevant/no-context cases separately from answer labels on partial evidence, plus a heuristic answer/decision conflict rate. Review flagged outputs manually; phrase checks are not a substitute for human evaluation.
 - `results/` — generated results; do not commit private user data or model files.
@@ -47,11 +48,11 @@ A model cannot infer that a lone, plausible statement is false from that stateme
    py -3 src/score.py --results results/qwen3-1.7b-evidence-check.jsonl --output results/qwen3-1.7b-evidence-check.csv
    ```
 
-The runner calls Ollama at `http://localhost:11434`; it does not send benchmark prompts to a hosted model API. Results from this 20-case draft pilot only check that the workflow runs; they are not research findings.
+The runner calls Ollama at `http://localhost:11434`; it does not send benchmark prompts to a hosted model API. Results from the 20-case pilot only check that the workflow runs; they are not research findings. Do not run `expanded_draft.jsonl` as an evaluation set until its translations and gold labels have been reviewed.
 
 ## Current status
 
-Project scope, initial protocol, 20-case pilot, local runner, and scorer are in place. Swedish wording has not been reviewed by a fluent speaker. The next step is to review the translations and expand the scenarios before drawing conclusions.
+Project scope, initial protocol, 20-case pilot, local runner, scorer, and a separate 30-case expansion draft are in place. Swedish wording in both datasets has not been reviewed by a fluent speaker. Review translations, matched questions, and expected labels before using the expanded draft.
 
 ## Research context
 
