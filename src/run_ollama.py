@@ -47,7 +47,7 @@ def make_prompt(case: dict, strategy: str) -> tuple[str, str]:
             "Välj answer när dokument tydligt stöder hela svaret. Välj partial när relevanta dokument "
             "stöder en del men den efterfrågade detaljen saknas; skriv den kända delen i answer. "
             "Välj abstain när inget relevant dokument stöder svaret; answer måste då vara en tom sträng. "
-            "Lägg förklaringen i reason."
+            "Lägg förklaringen i reason. Datum i metadata är dokumentets versionsdatum, inte ett händelsedatum; använd dem inte som svar om datumet inte också står som en sakuppgift i dokumenttexten."
         )
         question_label, docs_label, empty_context = "Fråga", "Dokument", "Inga dokument har hämtats."
     else:
@@ -59,7 +59,7 @@ def make_prompt(case: dict, strategy: str) -> tuple[str, str]:
             "Choose answer when the documents clearly support the full answer. Choose partial when "
             "relevant documents support some information but the requested detail is missing; put the "
             "known part in answer. Choose abstain when no relevant document supports an answer; answer "
-            "must then be an empty string. Put explanations in reason."
+            "must then be an empty string. Put explanations in reason. Dates in metadata are document version dates, not event dates; do not use them as answers unless the date also appears as a factual statement in the document text."
         )
         question_label, docs_label, empty_context = "Question", "Documents", "No documents were retrieved."
 
@@ -85,7 +85,7 @@ def make_prompt(case: dict, strategy: str) -> tuple[str, str]:
         superseded = passage.get("superseded", False)
         rendered_passages.append(
             f"[{passage['passage_id']}] source={passage.get('source_label', 'unknown')}; "
-            f"date={version}; superseded={str(superseded).lower()}\n{passage['text']}"
+            f"document_version_date={version}; superseded={str(superseded).lower()}\n{passage['text']}"
         )
     docs = "\n\n".join(rendered_passages) if rendered_passages else empty_context
     user = f"{question_label}: {case['question']}\n\n{docs_label}:\n{docs}"
