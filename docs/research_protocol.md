@@ -18,11 +18,11 @@ These are starting points, not a completed literature review. Before claiming a 
 
 ## Scope of the first version
 
-1. **Controlled pilot:** create fictional underlying scenarios. For each scenario, write matched Swedish and English versions and five evidence conditions: full support, partial support, irrelevant documents, no context, and conflicting/outdated evidence. The current two-scenario pilot has 20 inputs; it is only a workflow check.
+1. **Controlled pilot:** create fictional underlying scenarios. For each scenario, write matched Swedish and English versions and five evidence conditions: full support, partial support, irrelevant documents, no context, and conflicting/outdated evidence. The original two-scenario pilot has 20 inputs and is only a workflow check. A separate `expanded_draft.jsonl` adds three scenarios (30 matched language-condition cases); it remains unreviewed draft material and must not be treated as evaluation evidence before bilingual review.
 2. **Fixed retrieved passages:** pass the selected passages directly to the model. This makes the first experiment about judging evidence, not whether a search system retrieved the right documents.
 3. **Local models:** choose two or three quantized models that fit the available computer. Record exact model/version, quantization, runtime, prompt, and decoding settings.
 4. **Interventions:** compare a basic instruction with a short evidence-check instruction. Add a second model-based sufficiency check only if time allows.
-5. **Scale only after the pilot:** inspect errors and language quality, then expand the scenario set if the data and evaluation are sound.
+5. **Review before scaling:** inspect pilot errors and language quality. Review every Swedish translation, question-condition pairing, evidence citation, and gold label in `expanded_draft.jsonl` before running it; revise or remove any ambiguous case.
 
 ## Evidence conditions and expected behavior
 
@@ -70,7 +70,7 @@ Require machine-readable output with `decision` (`answer`, `partial`, or `abstai
 ## Milestones
 
 1. **Protocol and literature check:** verify related work and freeze the definitions before generating the full set.
-2. **Pilot benchmark:** draft and manually review 20 bilingual scenarios and their five conditions.
+2. **Pilot benchmark:** manually review the 20 pilot cases (two scenarios × two languages × five conditions), then review and revise the separate 30-case expansion draft before using it.
 3. **Runner and scorer:** run identical cases and prompts against selected local models; save raw outputs.
 4. **Baseline analysis:** compute the metrics above and inspect a sample of errors in both languages.
 5. **Mitigation comparison:** test the evidence-check instruction and quantify both reduced bad answers and added refusals.
