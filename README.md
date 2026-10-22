@@ -22,6 +22,7 @@ A model cannot infer that a lone, plausible statement is false from that stateme
 ## Repository map
 
 - `docs/research_protocol.md` — research question, benchmark design, scoring, and milestones.
+- `docs/swedish_language_review.md` — AI-assisted consistency review of the expanded Swedish draft; not human validation.
 - `data/schema.json` — required fields for each benchmark case.
 - `data/pilot.jsonl` — 20 pilot cases: two scenarios × two languages × five evidence conditions.
 - `data/expanded_draft.jsonl` — 30 additional draft cases: three new scenarios × two languages × five evidence conditions. These remain draft cases. Prefer fluent human review; if unavailable, use documented independent language-model checks and back-translation, keep the Swedish marked unreviewed, and treat results as exploratory.
