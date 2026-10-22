@@ -45,6 +45,7 @@ Each scenario has one answer key and a matched Swedish and English question.
 - Keep each English/Swedish pair fact-equivalent: same answer, entities, dates, source roles, and evidence condition.
 - Do not translate mechanically and assume equivalence. A fluent Swedish reviewer is preferred to check naturalness, ambiguity, and matched evidence strength. If unavailable, use two independent model-assisted reviews and back-translation as a documented fallback; this is weaker than human review and limits conclusions.
 - Keep a source/passage ID and an answer key for every example. The answer should be extractable from the passages, not outside knowledge.
+- Label retrieval metadata dates explicitly as document version dates. Tell models not to treat those metadata dates as event facts unless the passage text itself states them.
 - Store the exact prompt and model output for reproducibility. Do not include users' private exported chats in this benchmark.
 
 ## Scoring
