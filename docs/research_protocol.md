@@ -18,11 +18,11 @@ These are starting points, not a completed literature review. Before claiming a 
 
 ## Scope of the first version
 
-1. **Controlled pilot:** create fictional underlying scenarios. For each scenario, write matched Swedish and English versions and five evidence conditions: full support, partial support, irrelevant documents, no context, and conflicting/outdated evidence. The original two-scenario pilot has 20 inputs and is only a workflow check. A separate `expanded_draft.jsonl` adds three scenarios (30 matched language-condition cases); it remains unreviewed draft material and must not be treated as evaluation evidence before bilingual review.
+1. **Controlled pilot:** create fictional underlying scenarios. For each scenario, write matched Swedish and English versions and five evidence conditions: full support, partial support, irrelevant documents, no context, and conflicting/outdated evidence. The original two-scenario pilot has 20 inputs and is only a workflow check. A separate `expanded_draft.jsonl` adds three scenarios (30 matched language-condition cases); it remains unreviewed draft material. Prefer bilingual human review; if unavailable, use independent model-assisted checks and back-translation, retain the unreviewed flag, and report Swedish results as exploratory.
 2. **Fixed retrieved passages:** pass the selected passages directly to the model. This makes the first experiment about judging evidence, not whether a search system retrieved the right documents.
 3. **Local models:** choose two or three quantized models that fit the available computer. Record exact model/version, quantization, runtime, prompt, and decoding settings.
 4. **Interventions:** compare a basic instruction with a short evidence-check instruction. Add a second model-based sufficiency check only if time allows.
-5. **Review before scaling:** inspect pilot errors and language quality. Review every Swedish translation, question-condition pairing, evidence citation, and gold label in `expanded_draft.jsonl` before running it; revise or remove any ambiguous case.
+5. **Review before scaling:** inspect pilot errors and language quality. Review every translation, question-condition pairing, evidence citation, and gold label in `expanded_draft.jsonl` before using it. Prefer a fluent human reviewer. If unavailable, use independent model-assisted checks plus back-translation, retain the unreviewed flag, and limit Swedish findings to exploratory results.
 
 ## Evidence conditions and expected behavior
 
@@ -43,7 +43,7 @@ Each scenario has one answer key and a matched Swedish and English question.
 - Use fictional organizations, people, course names, dates, and policies to reduce contamination from model pretraining and avoid reproducing personal data.
 - Treat fictional examples as a controlled pilot only. If time and language review allow, add a small separate set based on public Swedish/English source documents to check whether conclusions transfer beyond synthetic passages.
 - Keep each English/Swedish pair fact-equivalent: same answer, entities, dates, source roles, and evidence condition.
-- Do not translate mechanically and assume equivalence. A fluent Swedish reviewer should check naturalness, ambiguity, and whether evidence strength is genuinely matched.
+- Do not translate mechanically and assume equivalence. A fluent Swedish reviewer is preferred to check naturalness, ambiguity, and matched evidence strength. If unavailable, use two independent model-assisted reviews and back-translation as a documented fallback; this is weaker than human review and limits conclusions.
 - Keep a source/passage ID and an answer key for every example. The answer should be extractable from the passages, not outside knowledge.
 - Store the exact prompt and model output for reproducibility. Do not include users' private exported chats in this benchmark.
 
