@@ -53,7 +53,9 @@ Report results separately by language, model, condition, and prompt strategy:
 
 - **Supported answer accuracy:** correct answers when evidence is sufficient.
 - **Appropriate abstention:** abstentions for missing evidence, and cautious responses for weak/conflicting evidence.
-- **Unsupported answer rate:** answers given when context does not justify them.
+- **Unsupported answer rate:** answer decisions on irrelevant or no-context cases, where no evidence supports an answer.
+- **Full-answer label on partial evidence:** rate at which the model chooses `answer` rather than `partial` for incomplete but relevant evidence. This is reported separately and is not automatically counted as an unsupported factual answer.
+- **Answer/decision conflict flag:** a heuristic English/Swedish phrase check for response-format inconsistencies. Manually review flagged outputs; this is not a semantic correctness metric.
 - **Misleading-claim adoption:** rate at which the model repeats the contradicted/superseded claim instead of using the current source or noting conflict.
 - **Over-abstention:** refusal rate on supported examples.
 - **Swedish–English gap:** paired difference for each metric, with uncertainty intervals once the benchmark is large enough.
