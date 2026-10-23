@@ -13,6 +13,17 @@ from urllib.request import Request, urlopen
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 CONDITIONS = {"supported", "partial", "irrelevant", "no_context", "misleading_conflict"}
+RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "decision": {"type": "string", "enum": ["answer", "partial", "abstain"]},
+        "answer": {"type": "string"},
+        "evidence_ids": {"type": "array", "items": {"type": "string"}},
+        "reason": {"type": "string"},
+    },
+    "required": ["decision", "answer", "evidence_ids", "reason"],
+    "additionalProperties": False,
+}
 
 
 def load_cases(path: Path) -> list[dict]:
@@ -99,7 +110,7 @@ def query_ollama(base_url: str, model: str, system: str, user: str, timeout: int
             {"role": "system", "content": system},
             {"role": "user", "content": user},
         ],
-        "format": "json",
+        "format": RESPONSE_SCHEMA,
         "stream": False,
         "think": False,
         "options": {"temperature": 0},
@@ -181,4 +192,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
