@@ -55,7 +55,15 @@ The runner calls Ollama at `http://localhost:11434`; it does not send benchmark 
 
 Project scope, initial protocol, 20-case pilot, local runner, scorer, and a separate 30-case expansion draft are in place. Swedish wording in both datasets has not received fluent-human review. Check translations, matched questions, and expected labels; if no fluent reviewer is available, document model-assisted checks and keep results exploratory.
 
+## AI-assisted output review
+
+`results/manual_review_v2_completed.csv` contains an AI-assisted review of 24 selected outputs from scenarios C003–C005, covering the `partial` and `irrelevant` conditions for the baseline and evidence-check strategies. It records potential decision/content mismatches, unsupported inferences, metadata used as a factual answer, and outputs with no clear issue from the material reviewed.
+
+This is not a human review, despite `manual_review` in the filename. Swedish-language wording and judgments were not independently checked by a fluent Swedish speaker. Treat the annotations as provisional; the pilot is small and its results are descriptive, not research conclusions.
+
 ## Research context
 
 Related work already studies evidence sufficiency generally, misleading-context abstention with small models in English, multilingual hallucination detection, and Swedish local RAG including refusal behavior. This project does not claim the general idea is new; its proposed focus is a controlled, matched Swedish–English comparison of small local models across evidence conditions. Treat that as a candidate contribution until a systematic literature review confirms it. See the protocol for initial related-work leads and limits.
+
+
 
