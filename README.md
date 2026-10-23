@@ -27,7 +27,7 @@ A model cannot infer that a lone, plausible statement is false from that stateme
 - `data/pilot.jsonl` — 20 pilot cases: two scenarios × two languages × five evidence conditions.
 - `data/expanded_draft.jsonl` — 30 additional draft cases: three new scenarios × two languages × five evidence conditions. These remain draft cases. Prefer fluent human review; if unavailable, use documented independent language-model checks and back-translation, keep the Swedish marked unreviewed, and treat results as exploratory.
 - `src/run_ollama.py` — runs the pilot using a local Ollama model.
-- `src/score.py` — summarizes saved runs as CSV. It reports unsupported answers for irrelevant/no-context cases separately from answer labels on partial evidence, plus a heuristic answer/decision conflict rate. Review flagged outputs manually; phrase checks are not a substitute for human evaluation.
+- `src/score.py` — summarizes saved runs as CSV. Its `answer_decision_rate` is the share of records in irrelevant/no-context conditions whose parsed decision is `answer`; it does not judge whether the answer text makes an unsupported factual claim. The answer/decision conflict rate is also heuristic. Review output content separately; phrase checks are not a substitute for human evaluation.
 - `results/` — generated results; do not commit private user data or model files.
 
 ## Run the pilot on Windows
@@ -77,7 +77,7 @@ Decision-match rate by condition (baseline / evidence-check):
 
 Evidence-check did not improve every condition. For irrelevant evidence, its abstention rate rose from 33% to 67% in English but fell from 67% to 0% in Swedish. Decision-match rates do not by themselves indicate answer correctness. The answer key now accepts the concise answer “14” for C004, because the question itself asks for a number of days; before this, the scorer marked that semantically correct response as wrong. With that correction, both strategies had 100% correct-answer rates on supported English examples and on misleading-conflict examples in both languages in this run. The partial-evidence decision match was low for both strategies.
 
-These rates are based on only three examples per language and condition. Swedish text was not independently checked by a fluent speaker, and the scorer's answer/decision conflict metric is heuristic. Treat the comparison as exploratory; it does not establish that either strategy is better.
+The CSV `answer_decision_rate` counts the `answer` decision label for irrelevant/no-context cases; it is not a factual unsupported-claim rate. In the reviewed examples, some such records have a blank answer or text that says the information is absent, while other records make unsupported claims. The AI-assisted review file records these separately. The rates are based on only three examples per language and condition. Swedish text was not independently checked by a fluent speaker, and the scorer's answer/decision conflict metric is heuristic. Treat the comparison as exploratory; it does not establish that either strategy is better.
 
 ## Research context
 

@@ -1,4 +1,4 @@
-﻿model,strategy,language,condition,n,decision_match_rate,correct_answer_rate,abstain_rate,parse_failure_rate,answer_decision_conflict_rate,full_answer_on_partial_rate,unsupported_answer_rate,misleading_claim_adoption_rate,mean_seconds
+﻿model,strategy,language,condition,n,decision_match_rate,correct_answer_rate,abstain_rate,parse_failure_rate,answer_decision_conflict_rate,full_answer_on_partial_rate,answer_decision_rate,misleading_claim_adoption_rate,mean_seconds
 qwen3:1.7b,evidence_check,en,irrelevant,3,0.6667,0.0,0.6667,0.0,0.0,,0.3333,,3.027
 qwen3:1.7b,evidence_check,en,misleading_conflict,3,1.0,1.0,0.0,0.0,0.0,,,0.0,2.719
 qwen3:1.7b,evidence_check,en,no_context,3,1.0,0.0,1.0,0.0,0.0,,0.0,,2.681

@@ -107,14 +107,14 @@ def main() -> None:
         "model", "strategy", "language", "condition", "n",
         "decision_match_rate", "correct_answer_rate", "abstain_rate", "parse_failure_rate",
         "answer_decision_conflict_rate", "full_answer_on_partial_rate",
-        "unsupported_answer_rate", "misleading_claim_adoption_rate", "mean_seconds",
+        "answer_decision_rate", "misleading_claim_adoption_rate", "mean_seconds",
     ]
     rows = []
     for (model, strategy, language, condition), items in sorted(groups.items()):
         n = len(items)
         # Partial cases are incomplete, but an answer may still contain supported details.
-        # Keep label overclaims separate from unsupported answers on irrelevant/missing evidence.
-        unsupported = condition in {"irrelevant", "no_context"}
+        # This records the decision label, not a human judgment that the answer text is factually unsupported.
+        no_evidence_condition = condition in {"irrelevant", "no_context"}
         row = {
             "model": model,
             "strategy": strategy,
@@ -131,7 +131,7 @@ def main() -> None:
             "full_answer_on_partial_rate": round(
                 sum(item["decision"] == "answer" for item in items) / n, 4
             ) if condition == "partial" else "",
-            "unsupported_answer_rate": round(sum(item["decision"] == "answer" for item in items) / n, 4) if unsupported else "",
+            "answer_decision_rate": round(sum(item["decision"] == "answer" for item in items) / n, 4) if no_evidence_condition else "",
             "misleading_claim_adoption_rate": round(sum(item["claim_adopted"] for item in items) / n, 4) if condition == "misleading_conflict" else "",
             "mean_seconds": round(sum(float(item["elapsed_seconds"] or 0) for item in items) / n, 3),
         }
