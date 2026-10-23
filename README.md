@@ -85,6 +85,25 @@ A local 30-record-per-strategy comparison on the same expanded draft found no de
 
 The runner now sends an explicit JSON schema to Ollama, constraining the response fields and the `decision` enum. New schema-constrained runs use a changed output-format setting, so rerun each model and strategy before comparing new results with one another; do not combine them as if they were generated under the earlier JSON-only setting. Ollama supports JSON schemas through its chat API's `format` field ([structured outputs documentation](https://docs.ollama.com/capabilities/structured-outputs)).
 
+## Schema-constrained exploratory comparison
+
+The table shows decision-match rates from 30-record runs per model and strategy on the draft dataset. There are only three examples per language and condition, so each record changes a rate by about 33 percentage points.
+
+| Language | Condition | Qwen3 baseline | Qwen3 evidence-check | Gemma3 baseline | Gemma3 evidence-check |
+|---|---|---:|---:|---:|---:|
+| English | Supported | 100% | 100% | 67% | 67% |
+| English | Partial | 33% | 0% | 0% | 0% |
+| English | Irrelevant | 33% | 67% | 67% | 67% |
+| English | No context | 100% | 100% | 100% | 100% |
+| English | Misleading conflict | 100% | 100% | 33% | 33% |
+| Swedish | Supported | 100% | 100% | 0% | 0% |
+| Swedish | Partial | 0% | 0% | 0% | 0% |
+| Swedish | Irrelevant | 67% | 0% | 67% | 67% |
+| Swedish | No context | 100% | 100% | 100% | 100% |
+| Swedish | Misleading conflict | 100% | 100% | 0% | 0% |
+
+These are exploratory descriptive results, not evidence that one model or strategy is generally superior. The answer/decision conflict metric remains heuristic, and the Swedish text has not received fluent-human review. In a targeted AI-assisted inspection of the raw outputs, Qwen3 evidence-check labeled two Swedish irrelevant-evidence cases `answer` while leaving the answer blank and explaining that the requested information was absent; its third case inferred a signed budget form from unrelated eligibility information. Gemma3 labeled the three Swedish supported cases `abstain` even though its answer field contained the supported fact. These examples illustrate why a valid JSON schema does not guarantee that decision, answer, and rationale agree or that claims are supported. This review is provisional and is not a fluent-human Swedish review.
+
 ## Research context
 
 Related work already studies evidence sufficiency generally, misleading-context abstention with small models in English, multilingual hallucination detection, and Swedish local RAG including refusal behavior. This project does not claim the general idea is new; its proposed focus is a controlled, matched Swedish–English comparison of small local models across evidence conditions. Treat that as a candidate contribution until a systematic literature review confirms it. See the protocol for initial related-work leads and limits.
