@@ -61,9 +61,24 @@ Project scope, initial protocol, 20-case pilot, local runner, scorer, and a sepa
 
 This is not a human review, despite `manual_review` in the filename. Swedish-language wording and judgments were not independently checked by a fluent Swedish speaker. Treat the annotations as provisional; the pilot is small and its results are descriptive, not research conclusions.
 
+## Expanded-draft pilot results
+
+The following descriptive results come from Qwen3 1.7B baseline and evidence-check runs on `data/expanded_draft.jsonl`. Each strategy has 30 records: three examples per language and condition. Score summaries are in `results/qwen3-1.7b-expanded-baseline-v2-scores.csv` and `results/qwen3-1.7b-expanded-evidence-check-v2-scores.csv`.
+
+Decision-match rate by condition (baseline / evidence-check):
+
+| Condition | English | Swedish |
+|---|---:|---:|
+| Supported | 100% / 100% | 100% / 100% |
+| Partial | 33% / 0% | 0% / 0% |
+| Irrelevant | 33% / 67% | 67% / 0% |
+| No context | 100% / 100% | 100% / 100% |
+| Misleading conflict | 100% / 100% | 100% / 100% |
+
+Evidence-check did not improve every condition. For irrelevant evidence, its abstention rate rose from 33% to 67% in English but fell from 67% to 0% in Swedish. Decision-match rates do not by themselves indicate answer correctness: in supported English cases, both strategies had 67% correct-answer rate; in misleading-conflict Swedish cases, baseline had 67% and evidence-check 100%. The partial-evidence decision match was low for both strategies.
+
+These rates are based on only three examples per language and condition. Swedish text was not independently checked by a fluent speaker, and the scorer's answer/decision conflict metric is heuristic. Treat the comparison as exploratory; it does not establish that either strategy is better.
+
 ## Research context
 
 Related work already studies evidence sufficiency generally, misleading-context abstention with small models in English, multilingual hallucination detection, and Swedish local RAG including refusal behavior. This project does not claim the general idea is new; its proposed focus is a controlled, matched Swedish–English comparison of small local models across evidence conditions. Treat that as a candidate contribution until a systematic literature review confirms it. See the protocol for initial related-work leads and limits.
-
-
-

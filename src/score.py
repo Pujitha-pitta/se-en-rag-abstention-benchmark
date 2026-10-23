@@ -144,9 +144,9 @@ def main() -> None:
         writer.writerows(rows)
     print(f"Scored {sum(len(items) for items in groups.values())} run records into {output_path}")
     print("Answer/decision conflict flags use simple English/Swedish refusal-phrase checks; review flagged examples manually.")
-    print("Pilot metrics are descriptive only; 2 scenarios are far too few for research conclusions.")
+    scenario_count = len({scenario_id for scenario_id, _, _ in cases})
+    print(f"Metrics are descriptive only: {scenario_count} scenarios; results are too small for research conclusions.")
 
 
 if __name__ == "__main__":
     main()
-

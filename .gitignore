@@ -5,4 +5,5 @@ venv/
 results/*
 !results/.gitkeep
 !results/manual_review_v2_completed.csv
-
+!results/qwen3-1.7b-expanded-baseline-v2-scores.csv
+!results/qwen3-1.7b-expanded-evidence-check-v2-scores.csv

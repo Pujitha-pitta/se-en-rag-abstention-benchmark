@@ -1,0 +1,11 @@
+﻿model,strategy,language,condition,n,decision_match_rate,correct_answer_rate,abstain_rate,parse_failure_rate,answer_decision_conflict_rate,full_answer_on_partial_rate,unsupported_answer_rate,misleading_claim_adoption_rate,mean_seconds
+qwen3:1.7b,baseline,en,irrelevant,3,0.3333,0.0,0.3333,0.0,0.3333,,0.6667,,3.243
+qwen3:1.7b,baseline,en,misleading_conflict,3,1.0,0.6667,0.0,0.0,0.0,,,0.0,2.681
+qwen3:1.7b,baseline,en,no_context,3,1.0,0.0,1.0,0.0,0.0,,0.0,,2.469
+qwen3:1.7b,baseline,en,partial,3,0.3333,0.0,0.0,0.0,0.0,0.6667,,,2.927
+qwen3:1.7b,baseline,en,supported,3,1.0,0.6667,0.0,0.0,0.0,,,,5.605
+qwen3:1.7b,baseline,sv,irrelevant,3,0.6667,0.0,0.6667,0.0,0.0,,0.3333,,3.251
+qwen3:1.7b,baseline,sv,misleading_conflict,3,1.0,0.6667,0.0,0.0,0.0,,,0.0,3.538
+qwen3:1.7b,baseline,sv,no_context,3,1.0,0.0,1.0,0.0,0.0,,0.0,,2.929
+qwen3:1.7b,baseline,sv,partial,3,0.0,0.0,0.0,0.0,0.6667,1.0,,,3.403
+qwen3:1.7b,baseline,sv,supported,3,1.0,1.0,0.0,0.0,0.0,,,,3.413
