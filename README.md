@@ -79,6 +79,10 @@ Evidence-check did not improve every condition. For irrelevant evidence, its abs
 
 The CSV `answer_decision_rate` counts the `answer` decision label for irrelevant/no-context cases; it is not a factual unsupported-claim rate. In the reviewed examples, some such records have a blank answer or text that says the information is absent, while other records make unsupported claims. The AI-assisted review file records these separately. The rates are based on only three examples per language and condition. Swedish text was not independently checked by a fluent speaker, and the scorer's answer/decision conflict metric is heuristic. Treat the comparison as exploratory; it does not establish that either strategy is better.
 
+## Output-format compliance check
+
+A local 30-record-per-strategy comparison on the same expanded draft found no decision labels outside the runner's allowed set (`answer`, `partial`, `abstain`) in either Qwen3 1.7B run. Gemma3 1B produced out-of-set decision labels in 11/30 baseline records and 14/30 evidence-check records. This is a response-format compliance count, not an accuracy score. The Gemma raw runs and score summaries remain local and are not included in this repository, so the count is reported as an exploratory observation from the local run. The small set, draft data, and lack of fluent-human Swedish review limit interpretation; it does not establish comparative model quality.
+
 ## Research context
 
 Related work already studies evidence sufficiency generally, misleading-context abstention with small models in English, multilingual hallucination detection, and Swedish local RAG including refusal behavior. This project does not claim the general idea is new; its proposed focus is a controlled, matched Swedish–English comparison of small local models across evidence conditions. Treat that as a candidate contribution until a systematic literature review confirms it. See the protocol for initial related-work leads and limits.
