@@ -75,7 +75,7 @@ Decision-match rate by condition (baseline / evidence-check):
 | No context | 100% / 100% | 100% / 100% |
 | Misleading conflict | 100% / 100% | 100% / 100% |
 
-Evidence-check did not improve every condition. For irrelevant evidence, its abstention rate rose from 33% to 67% in English but fell from 67% to 0% in Swedish. Decision-match rates do not by themselves indicate answer correctness: in supported English cases, both strategies had 67% correct-answer rate; in misleading-conflict Swedish cases, baseline had 67% and evidence-check 100%. The partial-evidence decision match was low for both strategies.
+Evidence-check did not improve every condition. For irrelevant evidence, its abstention rate rose from 33% to 67% in English but fell from 67% to 0% in Swedish. Decision-match rates do not by themselves indicate answer correctness. The answer key now accepts the concise answer “14” for C004, because the question itself asks for a number of days; before this, the scorer marked that semantically correct response as wrong. With that correction, both strategies had 100% correct-answer rates on supported English examples and on misleading-conflict examples in both languages in this run. The partial-evidence decision match was low for both strategies.
 
 These rates are based on only three examples per language and condition. Swedish text was not independently checked by a fluent speaker, and the scorer's answer/decision conflict metric is heuristic. Treat the comparison as exploratory; it does not establish that either strategy is better.
 
