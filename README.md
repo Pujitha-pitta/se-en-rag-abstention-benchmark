@@ -26,7 +26,7 @@ A model cannot infer that a lone, plausible statement is false from that stateme
 - `data/schema.json` — required fields for each benchmark case.
 - `data/pilot.jsonl` — 20 pilot cases: two scenarios × two languages × five evidence conditions.
 - `data/expanded_draft.jsonl` — 30 additional draft cases: three new scenarios × two languages × five evidence conditions. These remain draft cases. Prefer fluent human review; if unavailable, use documented independent language-model checks and back-translation, keep the Swedish marked unreviewed, and treat results as exploratory.
-- `src/run_ollama.py` — runs the pilot using a local Ollama model.
+- `src/run_ollama.py` — runs the pilot using a local Ollama model and constrains response fields and decision labels with a JSON schema.
 - `src/score.py` — summarizes saved runs as CSV. Its `answer_decision_rate` is the share of records in irrelevant/no-context conditions whose parsed decision is `answer`; it does not judge whether the answer text makes an unsupported factual claim. The answer/decision conflict rate is also heuristic. Review output content separately; phrase checks are not a substitute for human evaluation.
 - `results/` — generated results; do not commit private user data or model files.
 
@@ -81,7 +81,9 @@ The CSV `answer_decision_rate` counts the `answer` decision label for irrelevant
 
 ## Output-format compliance check
 
-A local 30-record-per-strategy comparison on the same expanded draft found no decision labels outside the runner's allowed set (`answer`, `partial`, `abstain`) in either Qwen3 1.7B run. Gemma3 1B produced out-of-set decision labels in 11/30 baseline records and 14/30 evidence-check records. This is a response-format compliance count, not an accuracy score. The Gemma raw runs and score summaries remain local and are not included in this repository, so the count is reported as an exploratory observation from the local run. The small set, draft data, and lack of fluent-human Swedish review limit interpretation; it does not establish comparative model quality.
+A local 30-record-per-strategy comparison on the same expanded draft found no decision labels outside the runner's allowed set (`answer`, `partial`, `abstain`) in either Qwen3 1.7B run. Gemma3 1B produced out-of-set decision labels in 11/30 baseline records and 14/30 evidence-check records. These runs used JSON mode without a constrained JSON schema. This is a response-format compliance count, not an accuracy score. The Gemma raw runs and score summaries remain local and are not included in this repository, so the count is reported as an exploratory observation from the local run. The small set, draft data, and lack of fluent-human Swedish review limit interpretation; it does not establish comparative model quality.
+
+The runner now sends an explicit JSON schema to Ollama, constraining the response fields and the `decision` enum. New schema-constrained runs use a changed output-format setting, so rerun each model and strategy before comparing new results with one another; do not combine them as if they were generated under the earlier JSON-only setting. Ollama supports JSON schemas through its chat API's `format` field ([structured outputs documentation](https://docs.ollama.com/capabilities/structured-outputs)).
 
 ## Research context
 
